@@ -290,6 +290,103 @@ it is possible also to give a range, for example ``git log HEAD~3 HEAD~5``
 - git log graphs:
 #TODO add ranges chapter 4
 
+## Merging branches
+Merging is combining two or more different lines of development.
+It unifies two or more commit histories of branches. All the branches to be merged must be in the same repository.
+when modifications in one branch do not conflict with modifications found in another branch, Git computes a merge result
+and creates a new commit that represents the new, unified state.
+
+``git merge``: your current branch is always the target branch, and changes from other branches are merged into the current branch.
+
+1. Preparing for the merge:
+As a general rule, your git life will be much easier if you start each merge with a clean working directory and index.
+
+#TODO find some graphs
+
+2. merge with a conflict
+
+
+## git diff
+explain some output variables of the git diff command.
+
+git diff as unix command
+
+- git diff: show the difference between your working directory and the index. It tells what can be staged for your next commit.
+- git diff --cached commit: show the difference between the staged changes in the index and the current commit. It tells the
+difference between what's in your index and what's permanently stored in the repository.
+- git diff commit: summarizes the differences between you working directory and the given commit.
+- git diff commit1 commit2: displays the differences between the two commits.
+#TODO more on git diffs with examples
+
+## Altering commits
+there are several schools of thought. One philosophy might be termed *realistic history*: every commit is retained and nothing is altered.
+
+on variant of this known as a *fine-grained* realistic history, where you commit every change as soon as possible.
+another option is *didactic* realistic history, where you take your time and commit only your best work at convenient and suitable moments.
+
+Given the opportunity to adjust the history -- possible cleaning up a bad intermediate design decision or
+rearranging commits into more logical flow -- you can create a more 'idealistic' history.
+
+### git revert
+```git revert commit``` applies the inverse of the given commit. generally this command is used to introduce a new commit thet
+reverses the effects of a given commit.
+the revert doesn't alter the existing history within a repository. Instead, it adds a new commit to the history.
+it is considered as a safe command (ultimately for shared repositories)
+
+### git commit --amend
+change the HEAD commit
+the commit has the same content but some aspects requires adjustment or tidying.
+a frequent use of git commit --amend is to fix typos right after a commit. however this is not the only use.
+can amend any file or files and can add or delete a file as part of the commit.
+give an example
+
+### git reset
+the git reset changes your repository and working directory to a known state.
+the git reset adjusts the HEAD ref to a given commit and, by default, updates the index to match that commit.
+git reset can also modify your working directory to mirror the revision by a given commit.
+
+git reset is considered as a destructive command because it can overwrite and destroy changes.
+
+the git reset has three main options --soft, --mixed and --hard.
+
+- git reset --soft commit:
+the soft option changes the head ref to point to a given commit. the contents of your index and working directory are left unchanged.
+It will move the commits above in the staging area.
+example: suppose you make a commit, then you add a file and realize that you need to combine this staged change with the previous commit.
+go back and do it correctly:
+commited files are moved to staged are. you can then combine the files in one commit or commit them in another order.
+``git reset --soft HEAD^`` return to the previous commit.
+
+
+- git reset --mixed commit:
+it changes the head to point to the given commit. your content are also modified to align the tree structure.
+It will move the commits above in the working directory.
+``git reset --mixed HEAD^`` return to the previous commit.
+
+commited files return to working directory. In that case you can add one by one or choose in which order to add and commit them.
+
+- git reset --hard commit:
+it changes the head ref to point to the given commit. The content of the index are also modified to agree with the tree structure.
+your working directory contents are changed to reflect the state of the tree represented by the given commit.
+modifications are then lost and new files added but not tracked will stay untouched.
+hard reset comes back to the chosen commit and deletes commits above.
+
+
+### git rebase
+it is used to alter where a sequence of commits is based.
+this command requires at least the name of the other branch onto which your commits will be relocated. By default, the commits
+from the current branch that are not already on the branch are rebased.
+
+a common use for git rebase is to keep a series of commits that you are developing up to date with respect to another branch.
+
+
+### git rebase -i
+for reordering, editing, removing, squashing multiple commits into one, and splitting one commit into several commits.
+
+
+##TODO
+stash and reflog
+then remote repositories
 
 ## 4. Intermediate steps
 In this part, we will go further in details and see more complicated commands with more complicated situations.
