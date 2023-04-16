@@ -2,7 +2,7 @@
 A document that explains the basic commands to properly use Git.
 
 ```shell
-git --version
+$ git --version
 git version 2.34.1
 ```
 ## Table of contents
