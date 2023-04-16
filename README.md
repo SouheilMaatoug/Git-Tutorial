@@ -120,9 +120,10 @@ to choose ``nano`` for example.
 2. Git init (to create a .git folder) else the directory is not considered as a repository.
 To convert a directory to a Git repository:
 ````shell
-$ git init -b main
+$ git init
 ````
 the ``git init`` command creates a hidden directory called *.git* where all revision information are stored.
+use the option ``--b main`` in case you want to change the default name of the initial branch.
 
 3. create a file / add content / git status: 
 Once our new empty repository, we can now add files and revise them. 
@@ -200,12 +201,85 @@ index 106287c..42eada1 100644
 Note that you need to commit this change but not to add the file.
 
 
+#### Branches
+a branch allows the user to launch a separate line of development within the project.
+this allows development to progress in multiple directions simultaneously.
+each commit you create will be applied to only one of the branches, the one which is marked active.
 
-4. git add / git status
-5. git commit / git status
-6. create branch / git branch / git checkout
-7. man git command
+The branch name will always refer to the most recent commit on the branch, which called the *HEAD*.
+a branch name a simple pointer to a specific commit.
 
+when you create a new branch, it is always based upon an existing commit within the repository.
+it can be the HEAD commit or a different commit that you reference explicitly using its hash value.
+
+The basic form of the command is as follows:
+````shell
+$ git branch branchname start-commit
+````
+if you don't specify a ``start-commit``, the default point will be the HEAD on the currently active branch.
+
+You need then to switch to the new branch in order to make changes in it.
+you can list branches using ``git branch``
+
+
+#### viewing branches and their commits
+the ``git show-branch`` provides more details than ``git branch``
+its output is divided into two parts, separated by a line of dashes.
+
+the section above the separator lists the following:
+- the name of branches in square brackets, one per line
+- each branch name prefixed with special characters: (*) to denote the current branch and (!) for other branches.
+- each branch name with its commit message from the most recent commit
+
+the section below the separator lists each commit together with its branch name:
+- stating which commits are present in each listed branch
+- prefixed with special characters: (+) the commit is present in the listed branch, (*) indicates that the commit is present in the
+current branch, and (-) denotes that the commit is a merge commit on the branch
+
+```git checkout branchname```
+
+if you have uncommitted changes, Git refuses to switch branch and ask you to commit changes first.
+
+
+Note that ``git checkout`` works also with files to restore their states.
+for example, git checkout file, when it's deleted or modified but not yet staged.
+
+``git restore`` do the same but what are the differences?
+
+you can check the history of a file using :
+````shell
+$ git log --follow -p -- filename
+````
+
+create and checkout a new branch
+````shell
+$ git checkout -b branchname
+````
+
+#### DETACHED HEAD
+you can checkout to any commit in the log history. you will be in a state known as detached head mode.
+because the branch and the head point to different commits.
+you are free to add new commits as experimental changes in your development project.
+
+those commits are also known as unreachable commits. In other words, there is no permanent
+reference to the commits other than the head. when you switch to another named branch, the commits will disappear.
+if you decide to keep those commits, you must first create a new branch
+
+deleting branch
+````shell
+$ git branch -d branchname
+````
+a warning message stating that branchname is not fully merged means that there are changes that are not included in the main branch.
+you are loosing some developments. Git is keeping you from accidentally losing content from the branch to be deleted.
+to force you can use -D option.
+
+in case the content of the wanted to be deleted branch is present in another branch, you can check that out and then procede to the deletion safely.
+
+
+## Commits
+every commit represents a single atomic changeset with respect to the previous state.
+A commit snapshot represents the state of the total set of modified files ans directories.
+a changeset between two snapshots represetns a complete transformation from one tree state to another.
 
 ## 4. Intermediate steps
 In this part, we will go further in details and see more complicated commands with more complicated situations.
