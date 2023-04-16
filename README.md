@@ -23,7 +23,14 @@ the index
 
 ## 3. First steps
 In this part, we will talk about the basic commands and the first steps in using Git.
-1. Git init (to create a .git folder) else the directory is not considered as a repository.
+1. Minimum git configuration: the very first step before being able to commit any changes is the configuration
+of the identity of the user which will be used by Git in the metadata.
+````shell
+$ git config user.name "jon doe"
+$ git config user.email "jon.doe@example.com"
+````
+
+2. Git init (to create a .git folder) else the directory is not considered as a repository.
 2. Git config (user name and user email) / show the file .git/config
 3. create a file / add content / git status
 4. git add / git status
