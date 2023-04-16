@@ -31,7 +31,12 @@ $ git config user.email "jon.doe@example.com"
 ````
 
 2. Git init (to create a .git folder) else the directory is not considered as a repository.
-2. Git config (user name and user email) / show the file .git/config
+To convert a directory to a Git repository:
+````shell
+$ git init -b main
+````
+the ``git init`` command creates a hidden directory called *.git* where all revision information are stored.
+
 3. create a file / add content / git status
 4. git add / git status
 5. git commit / git status
