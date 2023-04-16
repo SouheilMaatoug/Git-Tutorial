@@ -281,6 +281,16 @@ every commit represents a single atomic changeset with respect to the previous s
 A commit snapshot represents the state of the total set of modified files ans directories.
 a changeset between two snapshots represetns a complete transformation from one tree state to another.
 
+
+#### viewing old commits
+``git log`` output will include every associated commit and its log messages reachable from the specified starting point (by default HEAD)
+
+it is possible also to give a range, for example ``git log HEAD~3 HEAD~5``
+ 
+- git log graphs:
+#TODO add ranges chapter 4
+
+
 ## 4. Intermediate steps
 In this part, we will go further in details and see more complicated commands with more complicated situations.
 1. .gitignore
