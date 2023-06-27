@@ -1,15 +1,46 @@
 # Git Tutorial
-A document that explains the basic commands to properly use Git.
+Through software development lifecycle, multiple operations, steps and practices but also principles and agile methods are used to optimize the development process
+but above all to make it work correctly and fluidly.
+
+
+Version control comes as an essential brick for software development. It is the tool 
+that manages changes / developments and allows collaboration on the IT project by implementing important 
+agile methods.
+The most known VCS is **Git**.
+
+In this tutorial, we will explore what Git is and how it works. We will also
+talk about some DevOps concepts and important agile principles for a successful IT project.
+
+
+## Table of contents
+1. Git and GitHub
+2. First steps
+3. Git's internals
+4. Intermediate steps
+5. Remote repositories
+6. Collaboration
+7. References
 
 ```shell
 $ git --version
 git version 2.34.1
 ```
-## Table of contents
+
 
 ## 1. Git and GitHub
-Talk about version control, the difference between Git and GitHub, its use, its benefices..
-Use it from scratch / git CLI GUI / use it with and IDE (pycharm / VSCode for example)
+Git is an open-source, version control tool. GitHub is a web-based hosting service for git.
+
+In other words, Git is a software for version control (to keep track of changes, to collaborate on the same project ...) while 
+GitHub is a cloud service provider for hosting Git repositories (projects as directories and files).
+
+The main idea of SCM consists of the following:
+A shared directory of coding files is hosted on GitHub (called remote). Different developers, everyone has a copy of that project on his local
+environment. the dev can make changes and everyone contributes to the shared project.
+by pushing commits.
+A typical  steps consist of:
+
+![gitflow](./workflowgit.png)
+
 
 ## 2. Git's basic internals
 Git objects (blob, tree, commit, tag)
@@ -93,6 +124,8 @@ $ git tag -a V0.1 commit-hash
 ````
 entre editor and enter text. then ``git rev-parse V0.1`` to get the corresponding hash.
 then ``git cat-file -p tag-hash``
+
+to see more about versioning: https://semver.org/
 
 
 ---
