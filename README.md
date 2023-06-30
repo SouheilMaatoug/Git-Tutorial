@@ -140,24 +140,37 @@ Note that you need to commit this change but not to add the file.
 
 
 ## 2. Git's basic internals
-Git objects (blob, tree, commit, tag)
-Hierarchy of the folder
-difference between working directory, staging area and commits
-branches
-SHA1
-the folder .git/
-the index
-### Git object store
--blobs: binary long object: to refer to any file containing any data.
-a blob contains a file's data but does not contain any metadata about it or even its name.
-- trees: A tree object represents a directory information. It records blob identifiers, pathnames and some metadata for all files in the directory.
+### 1. Inside the *.git* directory
+<img alt="gitconcept" src="./images/gittree.png" width="350"/>
+
+The .git directory contains all the information about the repository, and it directly reflexes the current changes on 
+the repository. In summary, it contains the following:
+
+#### subdirectories: 
+- hooks: git special scripts
+- info: exclude file for ignored patters
+- objects: all git objects (stored as hash values)
+- logs: commits information
+- refs: pointers to commit objects
+
+#### files:
+- HEAD: current branch
+- config: configuration options
+- description
+- index: staging area (binary)
+
+### 2. Git object store
+- **Blobs (Binary Long Objects)**: refer to any file containing any data.
+A blob contains a file's data but does not contain any metadata about it, even its name.
+- **trees**: A tree object represents a directory information. It records blob identifiers, pathnames and some metadata 
+for all files in the directory.
 It can reference another subtree and thus build a complete hierarchy of files and subdirectories.
 In simple terms, a tree records the contents of a single level in the directory hierarchy.
 It lists files and subtrees by including their name and an identifier for the Git object they represent.
-- Commits: A commit object holds metadata for each change introduced into the repository,
+- **Commits**: A commit object holds metadata for each change introduced into the repository,
 including the author, committer, commit date, and log message.
 Each commit points to a tree object that captures, in one complete snapshot, the state of the repository at the time of the commit.
-- Tags: a tag object assigns a human-readable name to a specific object, usually a commit.
+- **Tags**: a tag object assigns a human-readable name to a specific object, usually a commit.
 
 #### Index
 the index stores binary data and is private to your repository.
@@ -174,62 +187,13 @@ sha1 values are 160-bit values that are represented as a 40-digit hexadecimal nu
 `2658a45cc547f3d29b4683e8cebd0d52f1d929cb`
 sha1 always computes the same ID/hash for identical content.
 
-Git records each pathname and index itby a hash value. This information is stored
-in the Git object store as the *tree* object
+Git records each pathname and index it by a hash value. This information is stored
+in the Git object store as the *tree* object.
 
 #### To resume
 when a file is created and staged in the index directory by ``git add``
 Git internally created a blob object. creates its SHA1 and enters it into
 the object store as file named after its hash. git adds / after the first two bits (a mechanism to improve filesystem)
-
-you can verify its content using:
-````shell
-$ git cat-file -p hash
-````
-
-Once the blob is saved in the object store. let's look how it is associated
-with a filename. the pathname is stored in a tree object. the index contains the pathnames.
-
-````shell
-$ git ls-files -s
-100644 42eada1675223b525cd3b0d3ccad745b18d7b7f0 0       file
-````
-the tree object can be produced by ``git write-tree``
-you can see the association of the filename and the hash of the blob.
-
-now that the blob and the tree are in the object store, we can create a commit
-````shell
-$ git cat-file -p 2658a45
-tree a2645b856788b36c90dfb5ed5861f6c9dff03eee
-parent 812db24fe117bc451557936861d74339319106e5
-author Jon Doe <jon.doe@example.com> 1681647630 +0200
-committer Jon Doe <jon.doe@example.com> 1681647630 +0200
-````
-
-the commit object contains your name and the time you made the commit,
-the commit object refer to a tree object.
-the name of a tree object that actually identifies the associated files
-the author and date of change
-the commiter
-the commit message
-. commit object
-
-finally tag objects are simple references to a particular commit object.
-
-````shell
-$ git tag -a V0.1 commit-hash
-````
-entre editor and enter text. then ``git rev-parse V0.1`` to get the corresponding hash.
-then ``git cat-file -p tag-hash``
-
-to see more about versioning: https://semver.org/
-
-
----
-
-configuration file:
-- *.git/config*: configuration file manipulated by default or --local
-- *~/.config*: user-specific configuration settings with --global option
 
 
 
