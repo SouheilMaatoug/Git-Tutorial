@@ -1,20 +1,15 @@
 # Git Tutorial
-Through software development lifecycle, multiple operations, steps and practices but also principles and agile methods are used to optimize the development process
-but above all to make it work correctly and fluidly.
-
-
 Version control comes as an essential brick for software development. It is the tool 
-that manages changes / developments and allows collaboration on the IT project by implementing important 
-agile methods.
-The most known VCS is **Git**.
+that manages changes and developments and allows collaboration on the IT project by implementing the concepts of agile 
+methods in DevOps. The most known Version Control System is **Git**.
 
 In this tutorial, we will explore what Git is and how it works. We will also
-talk about some DevOps concepts and important agile principles for a successful IT project.
+talk about some DevOps concepts methods for an IT development project.
 
 
 ## Table of contents
 1. Git and GitHub
-2. First steps
+2. Git's Basic commands
 3. Git's internals
 4. Intermediate steps
 5. Remote repositories
@@ -31,15 +26,115 @@ git version 2.34.1
 Git is an open-source, version control tool. GitHub is a web-based hosting service for git.
 
 In other words, Git is a software for version control (to keep track of changes, to collaborate on the same project ...) while 
-GitHub is a cloud service provider for hosting Git repositories (projects as directories and files).
+GitHub is a cloud service provider for hosting Git repositories and providing additional services (task automations, project management, ...).
 
-The main idea of SCM consists of the following:
-A shared directory of coding files is hosted on GitHub (called remote). Different developers, everyone has a copy of that project on his local
-environment. the dev can make changes and everyone contributes to the shared project.
-by pushing commits.
-A typical  steps consist of:
 
-![gitflow](./workflowgit.png)
+The main idea of a VCS consists of the following:
+A shared project hosted on GitHub (called remote repository) and multiple developers contributing to it. 
+Each developer has a local copy of the project (local repository), makes changes (e.g. modifying code) and sends them to 
+the remote project. Although, this type of collaboration can only be done by following some management rules, or it will 
+turn into a mess.
+
+![gitconcept](/images/git_repositories.png)
+
+## 2. Basic commands
+In this part, we will talk about the basic commands and the first steps in using Git.
+
+1. **Configuration**: 
+   1. User: (user identity to be used by Git in the metadata)
+    ````shell
+    $ git config user.name "jon doe"
+    $ git config user.email "jon.doe@example.com"
+    ````
+    2. Editor: (default text editor when Git asks you to edit a message: nano for example)
+    ````shell
+    $ export GIT_EDITOR=nano
+    ````
+2. **Creating a repository**
+````shell
+$ git init
+````
+In a folder, run the above command to turn it into a Git repository. the ``git init`` command creates a hidden directory 
+called *.git* where all revision information are stored.
+use the option ``--b main`` in case you want to change the default name of the initial branch to *main*.
+
+3. **Adding a file**
+
+Once our new empty repository is created, we can now add files and revise them. 
+````shell
+$ echo "Hello Git!" > file1
+````
+![gitconcept](/images/git_modifpng.png)
+The ``file1`` is now created in our working directory, but it is still untracked i.e. not yet tracked by Git.
+To do that we will use the `git add` command and run `git status` to have the status of Git after the modification:
+````shell
+$ git add file1
+````
+![gitconcept](/images/gitadd.png)
+the new file is now tracked by Git, but now, we need to validate this change and save a new version of the project (containing this new file):
+So let's commit our first changes.
+````shell
+$ git commit -m "add a new file"
+````
+![gitconcept](/images/gitcommit.png)
+
+After that, one can use `git push` to update the remote repository.  
+The mechanism works as follows:
+
+![git diagram](/images/git_diagram.png)
+
+
+4. **View history**
+
+you can view your commits' history using `git log`:
+````shell
+$ git log
+commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
+Author: Jon Doe <jon.doe@example.com>
+Date:   Sun Apr 16 14:20:30 2023 +0200
+
+    second commit
+
+commit 812db24fe117bc451557936861d74339319106e5
+Author: Jon Doe <jon.doe@example.com>
+Date:   Sun Apr 16 14:09:20 2023 +0200
+
+    add a new file
+````
+
+without any options, this command will output a sequence of individual commits' information. 
+that contains the **commit ID (SHA1)**, the commit author, the date of the commit and its message.
+
+Note (HEAD -> main) in the first commit is to say that this is the tip of the branch main.
+you can use the option ```--oneline``` or ``--graph``.
+
+To have more details about the commit ID, you can use the ```git show``` that shows objects.
+for example:
+````shell
+$ git show 2658a45cc547f3d29b4683e8cebd0d52f1d929cb
+commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
+Author: Jon Doe <jon.doe@example.com>
+Date:   Sun Apr 16 14:20:30 2023 +0200
+
+    second commit
+````
+
+to view commit differences. you can use the ``git diff`` command which show changes
+between commits, commit and working tree, etc
+````shell
+$ git diff HEAD^ HEAD
+diff --git a/file1 b/file1
+index 106287c..42eada1 100644
+--- a/file1
++++ b/file1
+@@ -1 +1,2 @@
+ Hello Git!
++new line
+````
+
+- removing and renaming files in your repository:
+``git rm`` (to delete staged file) and ``git mv`` to rename staged file.
+Note that you need to commit this change but not to add the file.
 
 
 ## 2. Git's basic internals
@@ -105,8 +200,8 @@ now that the blob and the tree are in the object store, we can create a commit
 $ git cat-file -p 2658a45
 tree a2645b856788b36c90dfb5ed5861f6c9dff03eee
 parent 812db24fe117bc451557936861d74339319106e5
-author SouheilMaatoug <souheil.maatoug@gmail.com> 1681647630 +0200
-committer SouheilMaatoug <souheil.maatoug@gmail.com> 1681647630 +0200
+author Jon Doe <jon.doe@example.com> 1681647630 +0200
+committer Jon Doe <jon.doe@example.com> 1681647630 +0200
 ````
 
 the commit object contains your name and the time you made the commit,
@@ -188,7 +283,7 @@ you can also view your commits' history:
 ````shell
 $ git log
 commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
-Author: SouheilMaatoug <souheil.maatoug@gmail.com>
+Author: Jon Doe <jon.doe@example.com>
 Date:   Sun Apr 16 14:20:30 2023 +0200
 
     second commit
@@ -210,7 +305,7 @@ for example:
 ````shell
 $ git show 2658a45cc547f3d29b4683e8cebd0d52f1d929cb
 commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
-Author: SouheilMaatoug <souheil.maatoug@gmail.com>
+Author: Jon Doe <jon.doe@example.com>
 Date:   Sun Apr 16 14:20:30 2023 +0200
 
     second commit
