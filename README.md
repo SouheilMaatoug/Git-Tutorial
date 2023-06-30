@@ -16,11 +16,6 @@ talk about some DevOps concepts methods for an IT development project.
 6. Collaboration
 7. References
 
-```shell
-$ git --version
-git version 2.34.1
-```
-
 
 ## 1. Git and GitHub
 Git is an open-source, version control tool. GitHub is a web-based hosting service for git.
@@ -63,25 +58,32 @@ use the option ``--b main`` in case you want to change the default name of the i
 Once our new empty repository is created, we can now add files and revise them. 
 ````shell
 $ echo "Hello Git!" > file1
+$ git status
 ````
-![gitconcept](/images/git_modifpng.png)
+
+<img src="./images/git_modifpng.png" alt="gitconcept" width="600"/>
+
 The ``file1`` is now created in our working directory, but it is still untracked i.e. not yet tracked by Git.
 To do that we will use the `git add` command and run `git status` to have the status of Git after the modification:
+
 ````shell
 $ git add file1
+$ git status
 ````
-![gitconcept](/images/gitadd.png)
+<img alt="gitconcept" src="./images/gitadd.png" width="600"/>
 the new file is now tracked by Git, but now, we need to validate this change and save a new version of the project (containing this new file):
 So let's commit our first changes.
+
 ````shell
 $ git commit -m "add a new file"
 ````
-![gitconcept](/images/gitcommit.png)
+
+<img alt="gitconcept" src="./images/gitcommit.png" width="600"/>
 
 After that, one can use `git push` to update the remote repository.  
 The mechanism works as follows:
 
-![git diagram](/images/git_diagram.png)
+<img alt="git diagram" src="./images/git_diagram.png" width="600"/>
 
 
 4. **View history**
