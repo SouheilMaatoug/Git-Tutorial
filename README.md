@@ -181,19 +181,11 @@ The index keeps records of staged changes (after git add)
 
 
 #### SHA1
-Each object in the object store is associated with a unique name produced by applying
+Each Git object is associated with a unique name produced by applying
 SHA1 to the content of the object, yielding a SHA1 hash value.
-sha1 values are 160-bit values that are represented as a 40-digit hexadecimal number such as 
-`2658a45cc547f3d29b4683e8cebd0d52f1d929cb`
-sha1 always computes the same ID/hash for identical content.
-
-Git records each pathname and index it by a hash value. This information is stored
-in the Git object store as the *tree* object.
-
-#### To resume
-when a file is created and staged in the index directory by ``git add``
-Git internally created a blob object. creates its SHA1 and enters it into
-the object store as file named after its hash. git adds / after the first two bits (a mechanism to improve filesystem)
+Sha1 values are 160-bit values that are represented as a 40-digit hexadecimal number such as 
+`2658a45cc547f3d29b4683e8cebd0d52f1d929cb`.
+Sha1 always computes the same ID/hash for identical content.
 
 ## 4. Intermediate steps
 ### 1. Commits
