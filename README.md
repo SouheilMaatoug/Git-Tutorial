@@ -185,14 +185,14 @@ Each Git object is associated with a unique name produced by applying
 SHA1 to the content of the object, yielding a SHA1 hash value.
 Sha1 values are 160-bit values that are represented as a 40-digit hexadecimal number such as 
 `2658a45cc547f3d29b4683e8cebd0d52f1d929cb`.
-Sha1 always computes the same ID/hash for identical content.
+(Note: Sha1 always computes the same ID/hash for identical content)
 
 ## 4. Intermediate steps
 ### 1. Commits
 Every commit represents a single atomic changeset with respect to the previous state. A commit snapshot represents
 the state of the total set of modified files and directories. 
 Commits are references explicitly by their hash values (40 hexadecimal digits) or implicitly via refs/ symrefs / relative 
-commit names (HEAD, HEAD~2, ..)
+commit names (HEAD, HEAD~2, ..).
 
 ``git log`` output will include every associated commit and its log messages reachable from the specified starting point (by default HEAD)
 
