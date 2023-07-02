@@ -195,113 +195,27 @@ when a file is created and staged in the index directory by ``git add``
 Git internally created a blob object. creates its SHA1 and enters it into
 the object store as file named after its hash. git adds / after the first two bits (a mechanism to improve filesystem)
 
+## 4. Intermediate steps
+### 1. Commits
+Every commit represents a single atomic changeset with respect to the previous state. A commit snapshot represents
+the state of the total set of modified files and directories. 
+Commits are references explicitly by their hash values (40 hexadecimal digits) or implicitly via refs/ symrefs / relative 
+commit names (HEAD, HEAD~2, ..)
 
+``git log`` output will include every associated commit and its log messages reachable from the specified starting point (by default HEAD)
 
-## 3. First steps
-In this part, we will talk about the basic commands and the first steps in using Git.
-1. Minimum git configuration: the very first step before being able to commit any changes is the configuration
-of the identity of the user which will be used by Git in the metadata.
-````shell
-$ git config user.name "jon doe"
-$ git config user.email "jon.doe@example.com"
-````
-you can also configure the editor because sometimes you will be asked to edit commit messages in a text editor.
-````shell
-$ export GIT_EDITOR=nano
-````
-to choose ``nano`` for example.
+it is possible also to give a range, for example ``git log HEAD~3 HEAD~5``
+ 
+- git log graphs:
+#TODO add ranges chapter 4
 
-2. Git init (to create a .git folder) else the directory is not considered as a repository.
-To convert a directory to a Git repository:
-````shell
-$ git init
-````
-the ``git init`` command creates a hidden directory called *.git* where all revision information are stored.
-use the option ``--b main`` in case you want to change the default name of the initial branch.
+### 2. Branches
+A branch allows the user to launch a separate line of development within the project.
+This allows development to progress in multiple directions simultaneously.
+Each commit you create will be applied to only one of the branches, the one which is marked active.
 
-3. create a file / add content / git status: 
-Once our new empty repository, we can now add files and revise them. 
-````shell
-$ echo "Hello Git!" > file1
-````
-The ``file1`` is now added to our working directory, but it is still untracked i.e. changes' metadata still not tracked by Git.
-To do that :
-````shell
-$ git add file1
-````
-````shell
-$ git status
-````
-if you choose to make modification before committing, you will see that there is one version (snapshot) of ``file1`` in
-the staging area (the first added line) and another version not staged (the file with the new line). ``git status`` will give the details
-and you can choose to do want you want. you can commit the staging version, then add the second version and have a second commit, or 
-discard changes using ``git restore file1`` or add it and have a single commit.
-
-Now let's commit our first changes.
-````shell
-$ git commit -m "initial commit"
-````
-
-the mechanism is as follows:
-include image from working directory -> (git add) -> index/staging directory -> git commit -> local history (.git/)
-
-you can also view your commits' history:
-````shell
-$ git log
-commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
-Author: Jon Doe <jon.doe@example.com>
-Date:   Sun Apr 16 14:20:30 2023 +0200
-
-    second commit
-
-commit 812db24fe117bc451557936861d74339319106e5
-Author: Jon Doe <jon.doe@example.com>
-Date:   Sun Apr 16 14:09:20 2023 +0200
-
-    create initial commit
-````
-without any options, this command will output a sequence of indivual commits' information. 
-that contains the commit ID (SHA1)
-the commit author, the date of the commit and its message.
-Note (HEAD -> MAIN) in the first commit to say that this is the header of this branch.
-you can use the option ```--oneline``` or ``--graph``
-
-to have more details about the commit ID, you can use the ```git show``` that shows objects.
-for example:
-````shell
-$ git show 2658a45cc547f3d29b4683e8cebd0d52f1d929cb
-commit 2658a45cc547f3d29b4683e8cebd0d52f1d929cb (HEAD -> main)
-Author: Jon Doe <jon.doe@example.com>
-Date:   Sun Apr 16 14:20:30 2023 +0200
-
-    second commit
-````
-
-to view commit differences. you can use the ``git diff`` command which show changes
-between commits, commit and working tree, etc
-````shell
-$ git diff HEAD^ HEAD
-diff --git a/file1 b/file1
-index 106287c..42eada1 100644
---- a/file1
-+++ b/file1
-@@ -1 +1,2 @@
- Hello Git!
-+new line
-````
-
-- removing and renaming files in your repository:
-``git rm`` (to delete staged file) and ``git mv`` to rename staged file.
-Note that you need to commit this change but not to add the file.
-
-
-#### Branches
-a branch allows the user to launch a separate line of development within the project.
-this allows development to progress in multiple directions simultaneously.
-each commit you create will be applied to only one of the branches, the one which is marked active.
-
-The branch name will always refer to the most recent commit on the branch, which called the *HEAD*.
-a branch name a simple pointer to a specific commit.
+The branch name will always refer to the most recent commit on the branch, which is called the *HEAD*.
+A branch name a simple pointer to a specific commit.
 
 when you create a new branch, it is always based upon an existing commit within the repository.
 it can be the HEAD commit or a different commit that you reference explicitly using its hash value.
@@ -314,6 +228,43 @@ if you don't specify a ``start-commit``, the default point will be the HEAD on t
 
 You need then to switch to the new branch in order to make changes in it.
 you can list branches using ``git branch``
+
+#### DETACHED HEAD
+you can checkout to any commit in the log history. you will be in a state known as detached head mode.
+because the branch and the head point to different commits.
+you are free to add new commits as experimental changes in your development project.
+
+those commits are also known as unreachable commits. In other words, there is no permanent
+reference to the commits other than the head. when you switch to another named branch, the commits will disappear.
+if you decide to keep those commits, you must first create a new branch
+
+deleting branch
+````shell
+$ git branch -d branchname
+````
+a warning message stating that branchname is not fully merged means that there are changes that are not included in the main branch.
+you are loosing some developments. Git is keeping you from accidentally losing content from the branch to be deleted.
+to force you can use -D option.
+
+in case the content of the wanted to be deleted branch is present in another branch, you can check that out and then procede to the deletion safely.
+
+
+### 3. Merging branches
+
+Merging is combining two or more different lines of development.
+It unifies two or more commit histories of branches. All the branches to be merged must be in the same repository.
+when modifications in one branch do not conflict with modifications found in another branch, Git computes a merge result
+and creates a new commit that represents the new, unified state.
+
+``git merge``: your current branch is always the target branch, and changes from other branches are merged into the current branch.
+
+1. Preparing for the merge:
+As a general rule, your git life will be much easier if you start each merge with a clean working directory and index.
+
+#TODO find some graphs
+
+2. merge with a conflict
+
 
 
 #### viewing branches and their commits
@@ -338,6 +289,7 @@ if you have uncommitted changes, Git refuses to switch branch and ask you to com
 Note that ``git checkout`` works also with files to restore their states.
 for example, git checkout file, when it's deleted or modified but not yet staged.
 
+
 ``git restore`` do the same but what are the differences?
 
 you can check the history of a file using :
@@ -350,55 +302,7 @@ create and checkout a new branch
 $ git checkout -b branchname
 ````
 
-#### DETACHED HEAD
-you can checkout to any commit in the log history. you will be in a state known as detached head mode.
-because the branch and the head point to different commits.
-you are free to add new commits as experimental changes in your development project.
-
-those commits are also known as unreachable commits. In other words, there is no permanent
-reference to the commits other than the head. when you switch to another named branch, the commits will disappear.
-if you decide to keep those commits, you must first create a new branch
-
-deleting branch
-````shell
-$ git branch -d branchname
-````
-a warning message stating that branchname is not fully merged means that there are changes that are not included in the main branch.
-you are loosing some developments. Git is keeping you from accidentally losing content from the branch to be deleted.
-to force you can use -D option.
-
-in case the content of the wanted to be deleted branch is present in another branch, you can check that out and then procede to the deletion safely.
-
-
-## Commits
-every commit represents a single atomic changeset with respect to the previous state.
-A commit snapshot represents the state of the total set of modified files ans directories.
-a changeset between two snapshots represetns a complete transformation from one tree state to another.
-
-
-#### viewing old commits
-``git log`` output will include every associated commit and its log messages reachable from the specified starting point (by default HEAD)
-
-it is possible also to give a range, for example ``git log HEAD~3 HEAD~5``
- 
-- git log graphs:
-#TODO add ranges chapter 4
-
-## Merging branches
-Merging is combining two or more different lines of development.
-It unifies two or more commit histories of branches. All the branches to be merged must be in the same repository.
-when modifications in one branch do not conflict with modifications found in another branch, Git computes a merge result
-and creates a new commit that represents the new, unified state.
-
-``git merge``: your current branch is always the target branch, and changes from other branches are merged into the current branch.
-
-1. Preparing for the merge:
-As a general rule, your git life will be much easier if you start each merge with a clean working directory and index.
-
-#TODO find some graphs
-
-2. merge with a conflict
-
+### 4. Altering history
 
 ## git diff
 explain some output variables of the git diff command.
