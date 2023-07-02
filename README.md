@@ -368,28 +368,9 @@ $ git rebase main
 ### git rebase -i
 for reordering, editing, removing, squashing multiple commits into one, and splitting one commit into several commits.
 
+<img alt="gitbranches" src="./images/rebase-interactive.png" width="350"/>    
 
-##TODO
-stash and reflog
-then remote repositories
-
-## 4. Intermediate steps
-In this part, we will go further in details and see more complicated commands with more complicated situations.
-1. .gitignore
-1. branching / checkout commits / HEAD
-2. parents and child commits
-3. merge branches / solve conflicts 
-4. alter commits / git commit --amend / git revert / git git reset (soft/mixed/hard) / git rebase -i (squaosh / rename /reorder)
-5. finding commits (git blame)
-6. stash and reflog
-7. git diff
-
-
-## 5. Remote repositories
-In this part, we will talk about remote repositories / how to create a connection between repositories
-1. what is a remote repository
-2. connection / SSH / HTTPS
-3. Hosting a repository in GitHub
+TODO: stash - reflog - git diff
 
 ## 6. Team work
 1. workflows branches
@@ -399,8 +380,6 @@ In this part, we will talk about remote repositories / how to create a connectio
 5. hooks
 6. commit messages and branch names
 
-include images / snapshots
-
 ## 7. References
-- O'reilly book : Version Control with Git, 3rd edition (Prem Kumar Ponthorai, Jon Loeliger)
-- official git manual
+- Version Control with Git, 3rd edition (Prem Kumar Ponthorai, Jon Loeliger)
+- [Official Git Manual](https://git-scm.com/docs/user-manual.html)
