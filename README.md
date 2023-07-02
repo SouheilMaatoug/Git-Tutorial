@@ -1,6 +1,6 @@
 # Git Tutorial
 Version control comes as an essential brick for software development. It is the tool 
-that manages changes and developments and allows collaboration on the IT project by implementing the concepts of agile 
+that manages changes and developments and that allows collaboration on the IT project by implementing the concepts of agile 
 methods in DevOps. The most known Version Control System is **Git**.
 
 In this tutorial, we will explore what Git is and how it works. We will also
@@ -12,9 +12,8 @@ talk about some DevOps concepts methods for an IT development project.
 2. Git's Basic commands
 3. Git's internals
 4. Intermediate steps
-5. Remote repositories
-6. Collaboration
-7. References
+5. Collaboration
+6. References
 
 
 ## 1. Git and GitHub
@@ -368,11 +367,13 @@ $ git rebase main
 ### git rebase -i
 for reordering, editing, removing, squashing multiple commits into one, and splitting one commit into several commits.
 
+The command ``git rebase -i main~3`` opens an interative text editor to edit the last 3 commits:
+
 <img alt="gitbranches" src="./images/rebase-interactive.png" width="350"/>    
 
 TODO: stash - reflog - git diff
 
-## 6. Team work
+## 5. Team work (in progress..)
 1. workflows branches
 2. methods / concepts
 3. pull requests
@@ -380,6 +381,6 @@ TODO: stash - reflog - git diff
 5. hooks
 6. commit messages and branch names
 
-## 7. References
+## 6. References
 - Version Control with Git, 3rd edition (Prem Kumar Ponthorai, Jon Loeliger)
 - [Official Git Manual](https://git-scm.com/docs/user-manual.html)
